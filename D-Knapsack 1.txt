@@ -1,0 +1,48 @@
+ll func(vll &weigh, vll &val, ll w, ll i, vvll &dp)
+{
+    if (i == 0 && (w - weigh[0]) >= 0)
+    {
+        return val[0];
+    }
+    else if (i == 0)
+        return 0;
+ 
+    if (dp[i][w] != -1)
+        return dp[i][w];
+ 
+    ll take = LLONG_MIN;
+    ll notTake = func(weigh, val, w, i - 1, dp);
+    if (w - weigh[i] >= 0)
+        take = val[i] + func(weigh, val, w - weigh[i], i - 1, dp);
+ 
+    return dp[i][w] = max(take, notTake);
+}
+ 
+void solve()
+{
+    ll n, w;
+    cin >> n >> w;
+    vll weigh(n), val(n);
+    rep(j, 0, n)
+    {
+        cin >> weigh[j];
+        cin >> val[j];
+    }
+    vvll dp(n, vll(w + 1, -1));
+    cout << func(weigh, val, w, n - 1, dp);
+}
+ 
+int main()
+{
+    fast int t = 1;
+    // cin >> t;
+    // freopen("input.txt", "r", stdin);
+    // freopen("output.txt", "w", stdout);
+    // precompute();
+    // sievetemp();
+    while (t--)
+    {
+        solve();
+    }
+    return 0;
+}

@@ -1,0 +1,61 @@
+ld func(ll ind, ll j, ll n, vld &p, vld &suff, vld &tsuff, vvld &dp)
+{
+    if (ind == n - j)
+        return suff[ind];
+    if (j == 0)
+        return (tsuff[ind]);
+
+    if (dp[ind][j] != -1)
+        return dp[ind][j];
+
+    ld taken = p[ind] * func(ind + 1, j - 1, n, p, suff, tsuff, dp);
+    ld notTaken = ((ld)1 - p[ind]) * func(ind + 1, j, n, p, suff, tsuff, dp);
+
+    return dp[ind][j] = taken + notTaken;
+}
+
+void solve()
+{
+    ll n;
+    cin >> n;
+    vld p(n);
+    rep(j, 0, n) cin >> p[j];
+    if (n == 1)
+    {
+        cout << p[0] << nl;
+        return;
+    }
+    vld suff(n), tsuff(n);
+    suff[n - 1] = p[n - 1], tsuff[n - 1] = 1 - p[n - 1];
+    for (ll i = n - 2; i >= 0; --i)
+    {
+        suff[i] = p[i] * suff[i + 1];
+    }
+
+    for (ll i = n - 2; i >= 0; --i)
+    {
+        tsuff[i] = (1 - p[i]) * tsuff[i + 1];
+    }
+    vvld memo(n, vld(n, -1));
+    ld sum = 0;
+    rep(j, (n / 2) + 1, n + 1)
+    {
+        sum += func(0, j, n, p, suff, tsuff, memo);
+    }
+    cout << setprecision(10) << sum << nl;
+}
+
+int main()
+{
+    fast int t = 1;
+    // cin >> t;
+    // freopen("input.txt", "r", stdin);
+    // freopen("output.txt", "w", stdout);
+    // precompute();
+    // sievetemp();
+    while (t--)
+    {
+        solve();
+    }
+    return 0;
+}

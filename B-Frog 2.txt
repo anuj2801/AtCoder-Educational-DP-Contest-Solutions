@@ -1,0 +1,35 @@
+void solve()
+{
+    ll n, k;
+    cin >> n >> k;
+    vll cost(n), dp(n, 0);
+    rep(j, 0, n) cin >> cost[j];
+    rep(j, 1, n)
+    {
+        ll curr = LLONG_MAX;
+        rep(i, 1, k + 1)
+        {
+            if (j - i >= 0)
+                curr = min(curr, abs(cost[j - i] - cost[j]) + dp[j - i]);
+        }
+ 
+        dp[j] = curr;
+    }
+ 
+    cout << dp[n-1] << nl;
+}
+ 
+int main()
+{
+    fast int t = 1;
+    // cin >> t;
+    // freopen("input.txt", "r", stdin);
+    // freopen("output.txt", "w", stdout);
+    // precompute();
+    // sievetemp();
+    while (t--)
+    {
+        solve();
+    }
+    return 0;
+}

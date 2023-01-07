@@ -1,0 +1,41 @@
+ll func(ll i, vll &cost, vll &memo)
+{
+    if (i == 0)
+        return 0;
+ 
+    if (memo[i] != -1)
+        return memo[i];
+ 
+    ll ojmp = INF, tjmp = INF;
+    if (i - 1 >= 0)
+        ojmp = abs(cost[i] - cost[i - 1]) + func(i - 1, cost, memo);
+    if (i - 2 >= 0)
+        tjmp = abs(cost[i] - cost[i - 2]) + func(i - 2, cost, memo);
+ 
+    return memo[i] = min(ojmp, tjmp);
+}
+ 
+void solve()
+{
+    ll n;
+    cin >> n;
+    vll cost(n);
+    rep(j, 0, n) cin >> cost[j];
+    vll memo(n, -1);
+    cout << func(n - 1, cost, memo) << nl;
+}
+ 
+int main()
+{
+    fast int t = 1;
+    // cin >> t;
+    // freopen("input.txt", "r", stdin);
+    // freopen("output.txt", "w", stdout);
+    // precompute();
+    // sievetemp();
+    while (t--)
+    {
+        solve();
+    }
+    return 0;
+}

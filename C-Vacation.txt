@@ -1,0 +1,65 @@
+ll func(vll &a, vll &b, vll &c, ll i, ll prev, vvll &dp)
+{
+    if (i == 0)
+    {
+        if (prev == 0)
+            return max(b[0], c[0]);
+        if (prev == 1)
+            return max(a[0], c[0]);
+        if (prev == 2)
+            return max(a[0], b[0]);
+        else
+            return max({a[0], b[0], c[0]});
+    }
+ 
+    if (prev != -1 && dp[i][prev] != -1)
+        return dp[i][prev];
+ 
+    ll ans = LLONG_MIN;
+ 
+    rep(j, 0, 3)
+    {
+        if (j != prev)
+        {
+            if (j == 0)
+                ans = max(ans, a[i] + func(a, b, c, i - 1, j, dp));
+            if (j == 1)
+                ans = max(ans, b[i] + func(a, b, c, i - 1, j, dp));
+            if (j == 2)
+                ans = max(ans, c[i] + func(a, b, c, i - 1, j, dp));
+        }
+    }
+ 
+    if (prev != -1)
+        return dp[i][prev] = ans;
+    else
+        return ans;
+}
+ 
+void solve()
+{
+    ll n;
+    cin >> n;
+    vll a(n), b(n), c(n);
+    rep(j, 0, n)
+    {
+        cin >> a[j] >> b[j] >> c[j];
+    }
+    vvll dp(n, vll(3, -1));
+    cout << func(a, b, c, n - 1, -1, dp);
+}
+ 
+int main()
+{
+    fast int t = 1;
+    // cin >> t;
+    // freopen("input.txt", "r", stdin);
+    // freopen("output.txt", "w", stdout);
+    // precompute();
+    // sievetemp();
+    while (t--)
+    {
+        solve();
+    }
+    return 0;
+}

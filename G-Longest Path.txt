@@ -1,0 +1,51 @@
+ll func(ll node, vll &vis, vll adj[], vll &Lp)
+{
+    if (vis[node])
+        return Lp[node];
+ 
+    ll maxi = 0;
+    vis[node] = 1;
+ 
+    for (auto it : adj[node])
+    {
+        maxi = max(maxi, func(it, vis, adj, Lp));
+    }
+ 
+    return Lp[node] = maxi + 1;
+}
+ 
+void solve()
+{
+    ll n, m;
+    cin >> n >> m;
+    vll adj[n + 1];
+    rep(j, 0, m)
+    {
+        ll u, v;
+        cin >> u >> v;
+        adj[u].pb(v);
+    }
+    vll vis(n + 1, 0), LongestPaths(n + 1, 0);
+    ll maxi = 0;
+    rep(j, 1, n + 1)
+    {
+        maxi = max(maxi, func(j, vis, adj, LongestPaths));
+    }
+ 
+    cout << maxi - 1 << nl;
+}
+ 
+int main()
+{
+    fast int t = 1;
+    // cin >> t;
+    // freopen("input.txt", "r", stdin);
+    // freopen("output.txt", "w", stdout);
+    // precompute();
+    // sievetemp();
+    while (t--)
+    {
+        solve();
+    }
+    return 0;
+}
