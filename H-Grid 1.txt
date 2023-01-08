@@ -1,0 +1,43 @@
+ll func(ll i, ll j, vector<string> &v, vvll &dp)
+{
+    if (i == 0 && j == 0)
+        return 1;
+    if (i < 0 || j < 0 || v[i][j] == '#')
+        return 0;
+
+    if (dp[i][j] != -1)
+        return dp[i][j];
+
+    ll up = func(i - 1, j, v, dp) % MOD;
+    ll left = func(i, j - 1, v, dp) % MOD;
+
+    return dp[i][j] = ((up + left) % MOD);
+}
+
+void solve()
+{
+    ll r, c;
+    cin >> r >> c;
+    vector<string> mat(r);
+    rep(j, 0, r)
+    {
+        cin >> mat[j];
+    }
+    vvll memo(r, vll(c, -1));
+    cout << func(r - 1, c - 1, mat, memo) % MOD << nl;
+}
+
+int main()
+{
+    fast int t = 1;
+    // cin >> t;
+    // freopen("input.txt", "r", stdin);
+    // freopen("output.txt", "w", stdout);
+    // precompute();
+    // sievetemp();
+    while (t--)
+    {
+        solve();
+    }
+    return 0;
+}
